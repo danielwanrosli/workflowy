@@ -1,127 +1,69 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React from 'react';
-// import type {Node} from 'react';
-
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, AppState } from 'react-native';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
+  AppRegistry,
+  Button,
+  Alert
 } from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-import Daily from '@daily-co/react-native-daily-js';
-
-// const call = Daily.createCallObject();
-// call.join({ url: 'https://your-team.daily.co/allhands' });
 
 export default function App() {
   return (
-    <SafeAreaView>
-      <Text> Workflowy </Text>
-    </SafeAreaView>
-  )
+    <View style={styles.container}>
+      <Text>Hello World</Text>
+      <StatusBar style="auto" />
+
+    <Button
+    type="secondary"
+    onPress={createRoom}
+    label={
+       appState === AppState.Creating
+          ? 'Creating room...'
+          : 'Create demo room'
+    } />
+
+   <StartButton
+   onPress={startCall}
+   disabled={startButtonDisabled}
+   starting={appState === AppState.Joining}/>
+
+  </View>
+  );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
-// const Section = ({children, title}): Node => {
-//   const isDarkMode = useColorScheme() === 'dark';
-//   return (
-//     <View style={styles.sectionContainer}>
-//       <Text
-//         style={[
-//           styles.sectionTitle,
-//           {
-//             color: isDarkMode ? Colors.white : Colors.black,
-//           },
-//         ]}>
-//         {title}
-//       </Text>
-//       <Text
-//         style={[
-//           styles.sectionDescription,
-//           {
-//             color: isDarkMode ? Colors.light : Colors.dark,
-//           },
-//         ]}>
-//         {children}
-//       </Text>
-//     </View>
-//   );
-// };
+const createRoom = () => {
+  setRoomCreateError(false);
+  setAppState(AppState.Creating);
+  api
+    .createRoom()
+    .then((room) => {
+      setRoomUrlFieldValue(room.url);
+      setAppState(AppState.Idle);
+    })
+    .catch(() => {
+      setRoomCreateError(true);
+      setRoomUrlFieldValue(undefined);
+      setAppState(AppState.Idle);
+    });
 
-// const App: () => Node = () => {
-//   const isDarkMode = useColorScheme() === 'dark';
 
-//   const backgroundStyle = {
-//     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-//   };
 
-//   return (
-//     <SafeAreaView style={backgroundStyle}>
-//       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-//       <ScrollView
-//         contentInsetAdjustmentBehavior="automatic"
-//         style={backgroundStyle}>
-//         <Header />
-//         <View
-//           style={{
-//             backgroundColor: isDarkMode ? Colors.black : Colors.white,
-//           }}>
-//           <Section title="Step One">
-//             Edit <Text style={styles.highlight}>App.js</Text> to change this
-//             screen and then come back to see your edits.
-//           </Section>
-//           <Section title="See Your Changes">
-//             <ReloadInstructions />
-//           </Section>
-//           <Section title="Debug">
-//             <DebugInstructions />
-//           </Section>
-//           <Section title="Learn More">
-//             Read the docs to discover what to do next:
-//           </Section>
-//           <LearnMoreLinks />
-//         </View>
-//       </ScrollView>
-//     </SafeAreaView>
-//   );
-// };
 
-// const styles = StyleSheet.create({
-//   sectionContainer: {
-//     marginTop: 32,
-//     paddingHorizontal: 24,
-//   },
-//   sectionTitle: {
-//     fontSize: 24,
-//     fontWeight: '600',
-//   },
-//   sectionDescription: {
-//     marginTop: 8,
-//     fontSize: 18,
-//     fontWeight: '400',
-//   },
-//   highlight: {
-//     fontWeight: '700',
-//   },
-// });
 
-// export default App;
+};
+
+/**
+  * “Join call” button will call startCall on press
+  */
+ 
+
+
+
